@@ -57,14 +57,72 @@ Driver Logbook v2 は、**軽貨物・委託ドライバー向けの業務記録
 
 ```
 src/
-├── app/(auth) # 認証不要ページ (ログイン・サインアップ)
-├── app/(main) # 認証済みページ (ダッシュボード・記録入力)
-├── features/ # 機能ごとにUI + ロジックをまとめて保持
-├── lib/ # Supabase周り、PDF生成、共通util
-├── store/ # Zustand ストア（状態管理）
-├── hooks/ # 再利用可能なReactフック
-├── styles/ # グローバルCSS・Tailwind設定
-├── types/ # 型定義まとめ
+├── app/                    # Next.js App Router（ページとレイアウト）
+│   ├── (auth)/            # 認証関連ページ（認証不要）
+│   │   ├── login/         # ログインページ
+│   │   └── signup/        # サインアップページ
+│   ├── (main)/            # メインアプリ（認証必要）
+│   │   ├── dashboard/     # ダッシュボード
+│   │   ├── daily-logs/    # 日報管理
+│   │   ├── expenses/      # 経費管理
+│   │   ├── revenues/      # 売上管理
+│   │   ├── vehicles/      # 車両管理
+│   │   └── settings/      # 設定
+│   ├── layout.tsx         # ルートレイアウト
+│   └── page.tsx           # ホームページ
+├── components/            # 再利用可能なUIコンポーネント
+│   ├── ui/               # 基本UIコンポーネント（shadcn/ui）
+│   │   ├── button.tsx    # ボタンコンポーネント
+│   │   ├── input.tsx     # 入力フィールド
+│   │   ├── card.tsx      # カードコンポーネント
+│   │   └── ...
+│   ├── forms/            # フォーム関連コンポーネント
+│   │   ├── daily-log-form.tsx
+│   │   ├── expense-form.tsx
+│   │   └── ...
+│   └── layout/           # レイアウト関連コンポーネント
+│       ├── header.tsx
+│       ├── sidebar.tsx
+│       └── navigation.tsx
+├── features/             # 機能別のコンポーネントとロジック
+│   ├── auth/            # 認証機能
+│   │   ├── components/  # 認証関連コンポーネント
+│   │   ├── hooks/       # 認証関連フック
+│   │   └── api/         # 認証API
+│   ├── daily-logs/      # 日報機能
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── api/
+│   ├── expenses/        # 経費機能
+│   └── revenues/        # 売上機能
+├── lib/                 # ライブラリとユーティリティ
+│   ├── supabase/       # Supabase設定
+│   │   ├── client.ts   # クライアントサイド設定
+│   │   ├── server.ts   # サーバーサイド設定
+│   │   └── middleware.ts # ミドルウェア設定
+│   ├── utils/          # ユーティリティ関数
+│   │   ├── cn.ts       # クラス名結合
+│   │   ├── date.ts     # 日付処理
+│   │   └── format.ts   # フォーマット処理
+│   └── validations/    # バリデーションスキーマ
+│       ├── auth.ts     # 認証バリデーション
+│       ├── daily-log.ts # 日報バリデーション
+│       └── expense.ts  # 経費バリデーション
+├── hooks/              # カスタムReactフック
+│   ├── use-auth.ts     # 認証フック
+│   ├── use-daily-logs.ts # 日報フック
+│   └── use-expenses.ts # 経費フック
+├── store/              # 状態管理（Zustand）
+│   ├── auth-store.ts   # 認証状態
+│   ├── ui-store.ts     # UI状態
+│   └── app-store.ts    # アプリ全体の状態
+├── types/              # TypeScript型定義
+│   ├── database.ts     # Supabaseデータベース型
+│   ├── index.ts        # アプリケーション型
+│   └── api.ts          # API型定義
+└── styles/             # スタイル関連
+    ├── globals.css     # グローバルCSS
+    └── components.css  # コンポーネント用CSS
 ```
 
 - Atomic Design ではなく **"機能別 (feature-based)"** で構成
